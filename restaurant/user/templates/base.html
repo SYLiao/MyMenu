@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+{% load staticfiles %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>User center</title>
+    <!-- Bootstrap -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+    <!-- Medium Style Editor -->
+    <script src="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/js/medium-editor.min.js"></script>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/medium-editor@latest/dist/css/medium-editor.min.css" type="text/css" media="screen" charset="utf-8">
+
+    <!-- CSS -->
+    <link rel="stylesheet" href="{% static 'css/user.css' %}">
+
+    <link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="nav navbar-default techfont bigbrand">
+        <div class="container">
+            <ul class="nav navbar-nav">
+                <li><a class="navbar-brand bigbrand" href="{% url 'home' %}">MyMenu</a> </li>
+
+            </ul>
+
+            <ul class="nav navbar-nav">
+                {% if user.is_authenticated %}
+                    <li><a href="{% url 'logout' %}">logout</a> </li>
+                    <li><a href="{% url 'profile' user.id %}">profile</a> </li>
+                {% else %}
+                <li><a href="{% url 'login' %}">login</a> </li>
+                <li><a href="{% url 'register' %}">register</a> </li>
+                {% endif %}
+            </ul>
+        </div>
+    </nav>
+
+    <div class="content container">
+        <div class="row">
+            <div class="col-md-8">
+                <div class="blog_posts">
+                    {% block content %}
+                    {% endblock %}
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
