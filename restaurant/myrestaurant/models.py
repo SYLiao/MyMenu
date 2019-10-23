@@ -13,6 +13,8 @@ class Restaurant(models.Model):
     user = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
     date = models.DateTimeField('Create Time', default=timezone.now())
 
+    objects = models.Manager()
+
     def __str__(self):
         return self.name
 
