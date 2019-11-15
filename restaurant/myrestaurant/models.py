@@ -11,7 +11,7 @@ class Restaurant(models.Model):
     telephone = models.TextField('Telephone number', max_length=20, blank=True, default='')
     url = models.URLField('Offical Website', blank=True, default='')
     user = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
-    date = models.DateTimeField('Create Time', default=timezone.now())
+    date = models.DateTimeField('Create Time', default=timezone.now)
 
     objects = models.Manager()
 
@@ -27,8 +27,8 @@ class Dish(models.Model):
     description = models.TextField('Dish description', blank=True, default='')
     price = models.DecimalField('Dish price', max_digits=8, decimal_places=2, blank=True, null=True)
     user = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
-    date = models.DateTimeField('Create time', default=timezone.now())
-    image = models.ImageField(upload_to='myrestaurant', blank=True, null=True)
+    date = models.DateTimeField('Create time', default=timezone.now)
+    # image = models.ImageField(upload_to='myrestaurant', blank=True, null=True)
     restaurant = models.ForeignKey(Restaurant, default=1, on_delete=models.CASCADE)
 
     def __str__(self):
@@ -42,7 +42,7 @@ class Review(models.Model):
     Ratingchoice = ((1, 'one'), (2, 'two'), (3, 'three'), (4, 'four'), (5, 'five'))
     Rating = models.SmallIntegerField('Rating (stars)', blank=False, default=5, choices=Ratingchoice)
     user = models.ForeignKey(User, default=1, on_delete=models.CASCADE)
-    date = models.DateTimeField('Create time', default=timezone.now())
+    date = models.DateTimeField('Create time', default=timezone.now)
     comment = models.TextField('Comment', max_length=200, blank=True, null=True)
 
     class Meta:

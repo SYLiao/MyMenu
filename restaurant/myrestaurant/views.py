@@ -8,8 +8,8 @@ from .forms import RestaurantForm
 
 class ListRestaurant(ListView):
 
-    context_object_name = 'restaurant'
-    template_name = 'ListRestaurant.html'
+    context_object_name = 'restaurant_list'
+    template_name = 'restaurant_list.html'
 
     def get_queryset(self):
         return Restaurant.objects.all().order_by('-date')
@@ -18,7 +18,7 @@ class RestaurantDetail(DetailView):
 
     model = Restaurant
     context_object_name = 'Details'
-    template_name =  'DetailRestaurant.html'
+    template_name = 'DetailRestaurant.html'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
@@ -28,8 +28,7 @@ class RestaurantDetail(DetailView):
 class RestaurantCreate(CreateView):
 
     model = Restaurant
-    context_object_name = 'Create'
-    template_name = 'CreateRestaurant.html'
+    template_name = 'form.html'
     form_class = RestaurantForm
 
     def form_invalid(self, form):
@@ -39,5 +38,5 @@ class RestaurantCreate(CreateView):
 class RestaurantUpdate(UpdateView):
 
     model = Restaurant
-    context_object_name = 'Update'
-    template_name = 'UpdateRestaurant.html'
+    form_class = RestaurantForm
+    template_name = 'form.html'

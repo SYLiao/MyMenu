@@ -1,10 +1,59 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends 'base.html' %}
+{% block content %}
+<h3>Restaurant {{restaurant.name}} details</h3>
+{% if request.user = restaurant.user %}
+<h2><a href="{% url 'myrestaurant:update_restaurant' restaurant.id %}">Update restaurant</a></h2>
+{% endif %}
 
-</body>
-</html>
+<h4>Address</h4>
+<p>
+    {{ restaurant.address }}<br/>
+    {{ restaurant.telephone }}
+</p>
+
+<h4>Menu
+{% if user.is_authenticated %}
+    (<a href="{% url 'myrestaurant:dish_create' restaurant.id %}">添加</a>)
+{% endif %}
+</h4>
+<ul>
+    {% for dish in restaurant.dishes.all %}
+    <ul>
+    {% for dish in restaurant.dishes.all %}
+    <li><a href="{% url 'myrestaurants:dish_detail' restaurant.id dish.id %}">
+    {{ dish.name }}</a> - {{ dish.price }}Yuan</li>
+    {% empty %}<li>We don't have dishes.</li>
+    {% endfor %}
+</ul>
+</ul>
+    <h4>Rating</h4>
+    {% if user.is_authenticated %}
+        {% for review in restaurant.reviews.all %}
+            <p>{{review.rating}} stars by {{ review.user }}</p>
+            <p>{{ review.comment }}</p>
+        {% endfor %}
+    {% else %}
+        <p>We don't have comments now.</p>
+    {% endif %}
+
+<h4>Add comment</h4>
+{% if user.is_authenticated %}
+<form action="{% url 'myrestaurant:review_create' restaurant.id %}" method="post">
+  {% csrf_token %}
+ <p>comment</p>
+  <textarea name="comment" id="comment"></textarea>
+  <p>Rating</p>
+  <p>
+    {% for rate in RATING_CHOICES %}
+      <input type="radio" name="rating" id="rating{{ forloop.counter }}" value="{{ rate.0 }}" />
+      <label for="choice{{ forloop.counter }}">{{ rate.0 }}stars</label>
+      <br/>
+    {% endfor %}
+  </p>
+  <input type="submit" value="Submit" />
+</form>
+
+{% else %}
+<p>Please login first.</p>
+{% endif %}
+{% endblock %}
